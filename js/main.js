@@ -40,11 +40,43 @@ var app7 = new Vue({
   }
 })
 
-var data = { a : 1 }
+var fullName = '';
 
 // vm View-Model
 // When you create a Vue instance, you pass in an options object.
 // https://vuejs.org/v2/api/#Options-Data
 var vm = new Vue({
-  data: data
+  el: '#example',
+  data: {
+    message: 'Hello',
+    firstName: 'Davide',
+    lastName: 'Desirello',
+  },
+  watch: {
+    getName: function(){
+      return this.fullName.get; 
+    }
+  },  
+  computed: {
+    // a computed getter 
+    reversedMessage: function() {
+      // this points to vm instance
+      return this.message.split('').reverse().join('');
+    },
+    
+    now: function(){
+      return Date.now();
+    },
+    fullName: {
+      get: function() {
+        return this.firstName + ' ' + this.lastName;
+      },
+      set: function() {
+        // setter
+        var names = newValue.split(' ');
+        this.firstName = names[0];
+        this.lastName = names[names.length - 1];     
+      }
+    }
+  }
 })

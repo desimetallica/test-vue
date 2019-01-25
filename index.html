@@ -3,7 +3,8 @@
             <p>{{ message }}</p>
             <button v-on:click="reverseMessage">Reverse Message</button>
     </div>
-
+    <p>Insert your name:</p>
+        <input v-model="name"></input>
     <div id="app-6">
         <ol>
             <li v-for="todo in todos">
@@ -21,7 +22,15 @@
             ></todo-item>
         </ol>     
     </div>
-    
+    <div id="example">
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reversedMessage }}"</p>
+        <p>Now: "{{ now }}"</p>
+        <p id="demo">{{ fullName }}</p>
+    </div>
+    <div id="lifecycle">
+        <img src="img/lifecycle.png"></img>
+    </div>
 </html>
 <!-- development version, includes helpful console warnings -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
