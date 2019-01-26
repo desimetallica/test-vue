@@ -45,18 +45,36 @@ var fullName = '';
 // vm View-Model
 // When you create a Vue instance, you pass in an options object.
 // https://vuejs.org/v2/api/#Options-Data
+/*
+While computed properties are more appropriate in most cases, 
+there are times when a custom watcher is necessary. 
+That’s why Vue provides a more generic way to react to data changes through the watch option. 
+This is most useful when you want to perform asynchronous or expensive operations in response to changing data.
+*/
 var vm = new Vue({
   el: '#example',
   data: {
-    message: 'Hello',
+    inputName: '',
+    message: 'Wait until you type something',
     firstName: 'Davide',
     lastName: 'Desirello',
   },
   watch: {
-    getName: function(){
-      return this.fullName.get; 
+    inputName: function(oldName, newName){
+      this.message = 'Waiting for you to stop typing...'
+      this.debouncedGetMessage();
     }
-  },  
+  }, 
+  methods: {
+    getMessage: function() {
+      this.message = 'Thinking...'
+      //do the asyncronous request here
+      vm.message = this.inputName;
+    }
+  },
+  created: function(){
+    this.debouncedGetMessage = _.debounce(this.getMessage, 500);
+  },
   computed: {
     // a computed getter 
     reversedMessage: function() {
@@ -67,6 +85,8 @@ var vm = new Vue({
     now: function(){
       return Date.now();
     },
+    //Now when you run vm.fullName = 'John Doe', 
+    //the setter will be invoked and vm.firstName and vm.lastName will be updated accordingly.
     fullName: {
       get: function() {
         return this.firstName + ' ' + this.lastName;
